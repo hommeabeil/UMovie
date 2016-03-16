@@ -15,11 +15,10 @@ exports.getActorMovies = function (req, res) {
 };
 
 exports.getMovie = function (req, res) {
-    console.log(req);
     itunes.lookup({
         id: req.params.id,
         entity: 'movie'
-    }, res, 'single');
+    }, res, 'single', req.user);
 };
 
 exports.getTvShowSeason = function (req, res) {

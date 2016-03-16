@@ -16,7 +16,7 @@ exports.isAuthenticated = function (req, res, next) {
                 });
             }
 
-            UserModel.findOne({ '_id': decoded.iss }, function (err, user) {
+            UserModel.findOne({'_id': decoded.iss}, function (err, user) {
                 if (!err) {
                     if (user) {
                         req.user = user;
@@ -45,7 +45,6 @@ exports.isAuthenticated = function (req, res, next) {
 };
 
 exports.retrieveToken = function (req) {
-    console.log(req.body);
     var parsed_url = url.parse(req.url, true);
 
     return (req.body && req.body.access_token) ||

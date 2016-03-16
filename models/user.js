@@ -11,7 +11,7 @@ userSchema.add({
     token: String,
     expiration: Number,
     following: [],
-    preference:[]
+    preference: [{genre: String, count: Number}]
 });
 
 userSchema.methods.toDTO = function (following) {

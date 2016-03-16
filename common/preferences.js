@@ -1,22 +1,35 @@
-var User = require('../models/user.js').model;
+var User = require('../models/user').model;
+var genreToId = require('./genreToId');
+require('array.prototype.find');
 
-exports.updatePreference = function (id, genreCode) {
+exports.updatePreference = function (id, result) {
 
-    var user = User.findById(id);
+    User.findOne({_id: id}, function (err, user) {
+        for (var i = 0; i < result.length; i++) {
 
-    var genreIsAMovie = genreCode.substr(0, 2) === '44';
+            var genreName = result[i].primaryGenreName;
 
-    var index;
-    if (genreIsAMovie) {
-        index = parseInt(genreCode.substr(2)) - 1;
-    } else {
-        index = parseInt(genreCode.substr(2) + 33);
-    }
+            var genreCode = genreToId.findByGenreName(genreName);
 
-    user.preference[index] += 1;
+            var genreIndex = -1;
 
-    user.save(function(err){
-        console.log(err);
-    })
+            for (var j = 0; j < user.preference.length; j++) {
+                if (user.preference[j].genre === genreCode) {
+                    genreIndex = j;
+                }
+            }
+
+            if (genreIndex !== -1) {
+                user.preference[genreIndex].count += 1;
+            } else {
+                user.preference.push({genre: genreCode, count: 1})
+            }
+        }
+        user.save(function (err) {
+            console.log(err);
+        })
+
+    });
+
 
 };
