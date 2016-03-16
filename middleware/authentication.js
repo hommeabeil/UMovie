@@ -45,6 +45,7 @@ exports.isAuthenticated = function (req, res, next) {
 };
 
 exports.retrieveToken = function (req) {
+    console.log(req.body);
     var parsed_url = url.parse(req.url, true);
 
     return (req.body && req.body.access_token) ||

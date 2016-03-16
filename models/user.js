@@ -10,7 +10,8 @@ userSchema.add({
     password: String,
     token: String,
     expiration: Number,
-    following: []
+    following: [],
+    preference:[]
 });
 
 userSchema.methods.toDTO = function (following) {
@@ -21,7 +22,9 @@ userSchema.methods.toDTO = function (following) {
         // Kept for compatibility with bug. (To remove next session)
         _id: obj.id.toString(),
         name: obj.name,
-        email: obj.email
+        email: obj.email,
+        genre: obj.preference
+
     };
 
     if (following) {
